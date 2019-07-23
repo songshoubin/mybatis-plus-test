@@ -1,19 +1,20 @@
 package com.xiaodu.mybatisplustest.generator;
 
 
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
-import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
-import com.baomidou.mybatisplus.generator.config.GlobalConfig;
-import com.baomidou.mybatisplus.generator.config.PackageConfig;
-import com.baomidou.mybatisplus.generator.config.StrategyConfig;
-import com.baomidou.mybatisplus.generator.config.converts.MySqlTypeConvert;
-import com.baomidou.mybatisplus.generator.config.rules.DbColumnType;
+import com.baomidou.mybatisplus.generator.InjectionConfig;
+import com.baomidou.mybatisplus.generator.config.*;
+import com.baomidou.mybatisplus.core.toolkit.StringPool;
+import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.toolkit.StringUtils;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 /**
@@ -44,8 +45,99 @@ public class MysqlGenerator {
 
 
     public static void main(String[] args) {
-
+        // 代码生成器
         AutoGenerator mpg = new AutoGenerator();
+
+        // 全局配置
+        GlobalConfig gc = new GlobalConfig();
+        gc.setAuthor("songshoubin");
+//        gc.setOutputDir("F:\\idea_workspace\\mybatis-plus-test\\src\\main\\java");
+        String projectPath = System.getProperty("user.dir");//获取用户的当前工作目录
+        //outputDir：生成文件的输出目录，默认值：D 盘根目录
+        gc.setOutputDir(projectPath + "/src/main/java");
+        //IdType设置主键生成策略，默认值null
+        gc.setIdType(IdType.AUTO);
+        //Open：是否打开输出目录
+        gc.setOpen(false);
+        gc.setFileOverride(true);// 是否覆盖同名文件，默认是false
+        gc.setActiveRecord(true);// 不需要ActiveRecord特性的请改为false
+        gc.setEnableCache(false);// XML 二级缓存
+        gc.setBaseResultMap(true);// XML ResultMap
+
+        gc.setBaseColumnList(true);// XML columList
+        mpg.setGlobalConfig(gc);
+
+        // 数据源配置
+        DataSourceConfig dsc = new DataSourceConfig();
+        dsc.setUrl("jdbc:mysql://localhost:3306/mydemo?serverTimezone=UTC&amp&characterEncoding=utf-8&useSSL=false");
+        // dsc.setSchemaName("public");
+        dsc.setDriverName("com.mysql.cj.jdbc.Driver");
+        dsc.setUsername("root");
+        dsc.setPassword("123456");
+        //设置数据库类型，默认MYSQL
+        dsc.setDbType(DbType.MYSQL);
+        mpg.setDataSource(dsc);
+
+        // 包配置
+        PackageConfig pc = new PackageConfig();
+//        pc.setModuleName(scanner("模块名"));
+        //父包名。如果为空，将下面子包名必须写全部， 否则就只需写子包名
+        pc.setParent("com.xiaodu.mybatisplustest");
+        mpg.setPackageInfo(pc);
+
+        //模板配置
+
+
+        // 自定义配置
+        InjectionConfig cfg = new InjectionConfig() {
+            @Override
+            public void initMap() {
+                // to do nothing
+            }
+        };
+        List<FileOutConfig> focList = new ArrayList<>();
+        focList.add(new FileOutConfig("/templates/mapper.xml.ftl") {
+            @Override
+            public String outputFile(TableInfo tableInfo) {
+                // 自定义输入文件名称
+                return projectPath + "/src/main/resources/mapper/"
+                        + "/" + tableInfo.getEntityName() + "Mapper" + StringPool.DOT_XML;
+            }
+        });
+        cfg.setFileOutConfigList(focList);
+        mpg.setCfg(cfg);
+        mpg.setTemplate(new TemplateConfig().setXml(null));
+
+
+        // 策略配置
+        StrategyConfig strategy = new StrategyConfig();
+        //设置命名格式
+        strategy.setNaming(NamingStrategy.underline_to_camel);
+        //【实体】是否为lombok模型（默认 false）
+        strategy.setEntityLombokModel(false);
+        //生成 @RestController 控制器
+        strategy.setRestControllerStyle(true);
+        strategy.setInclude(scanner("表名"));
+        //驼峰转连字符
+        strategy.setControllerMappingHyphenStyle(true);
+        //表名前缀
+//        strategy.setTablePrefix(pc.getModuleName() + "_");
+        //是否生成实体时，生成字段注解
+        strategy.entityTableFieldAnnotationEnable(true);
+        //设置自定义继承的Entity类全称，带包名
+//       strategy.setSuperEntityClass("com.lj.common.BaseEntit");
+        //设置自定义继承的Controller类全称，带包名
+//        strategy.setSuperControllerClass("com.lj.common.BaseController");
+        //设置自定义基础的Entity类，公共字段
+//        strategy.setSuperEntityColumns("id");
+        mpg.setStrategy(strategy);
+        mpg.setTemplateEngine(new FreemarkerTemplateEngine());
+        mpg.execute();
+    }
+
+
+
+        /*AutoGenerator mpg = new AutoGenerator();
         // 选择 freemarker 引擎，默认 Veloctiy
         mpg.setTemplateEngine(new FreemarkerTemplateEngine());
 
@@ -58,7 +150,7 @@ public class MysqlGenerator {
         gc.setEnableCache(false);// XML 二级缓存
         gc.setBaseResultMap(true);// XML ResultMap
         gc.setBaseColumnList(false);// XML columList
-        /* 自定义文件命名，注意 %s 会自动填充表实体属性！ */
+        *//* 自定义文件命名，注意 %s 会自动填充表实体属性！ *//*
          gc.setMapperName("%sDao");
          gc.setXmlName("%sDao");
 //         gc.setServiceName("MP%sService");
@@ -89,20 +181,20 @@ public class MysqlGenerator {
         StrategyConfig strategy = new StrategyConfig();
         //设置命名格式
         strategy.setNaming(NamingStrategy.underline_to_camel); //驼峰类型  NamingStrategy.nochange为下划线类型
-       /* strategy.setFieldNaming(NamingStrategy.underline_to_camel);
-        strategy.setDbColumnUnderline(true);*/
+       *//* strategy.setFieldNaming(NamingStrategy.underline_to_camel);
+        strategy.setDbColumnUnderline(true);*//*
         //【实体】是否为lombok模型（默认 false）
         strategy.setEntityLombokModel(false);
         //生成 @RestController 控制器
         strategy.setRestControllerStyle(true);
         strategy.setInclude(scanner("表名"));
 
-        /*strategy.setInclude(new String[] {
+        *//*strategy.setInclude(new String[] {
                         "lp_test".toUpperCase(),
                         "a_settle_a".toUpperCase(),
                         "a_settle_b".toUpperCase(),
                         "a_settle_c".toUpperCase()
-                        }); // 需要生成的表*/
+                        }); // 需要生成的表*//*
 
         //驼峰转连字符
         strategy.setControllerMappingHyphenStyle(false);
@@ -198,6 +290,6 @@ public class MysqlGenerator {
 
         // 打印注入设置【可无】
 //        System.err.println(mpg.getCfg().getMap().get("abc"));
-    }
+    }*/
 
 }

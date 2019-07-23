@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableField;
 import com.baomidou.mybatisplus.annotations.TableId;
+import com.baomidou.mybatisplus.enums.IdType;
 import com.baomidou.mybatisplus.activerecord.Model;
 import com.baomidou.mybatisplus.annotations.TableName;
 import java.io.Serializable;
@@ -16,7 +17,7 @@ import java.io.Serializable;
  * </p>
  *
  * @author songshoubin
- * @since 2019-07-22
+ * @since 2019-07-23
  */
 @TableName("ela_job")
 public class ElaJob extends Model<ElaJob> {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.xiaodu.mybatisplustest.mapper.ElaJobDao">
+<mapper namespace="com.xiaodu.mybatisplustest.mapper.ElaJobMapper">
 
     <!-- 通用查询映射结果 -->
     <resultMap id="BaseResultMap" type="com.xiaodu.mybatisplustest.entity.ElaJob">
@@ -14,5 +14,10 @@
         <result column="remark" property="remark" />
         <result column="update_time" property="updateTime" />
     </resultMap>
+
+    <!-- 通用查询结果列 -->
+    <sql id="Base_Column_List">
+        id AS id, bean_name AS beanName, cron_expression AS cronExpression, is_pause AS isPause, job_name AS jobName, method_name AS methodName, params AS params, remark AS remark, update_time AS updateTime
+    </sql>
 
 </mapper>
