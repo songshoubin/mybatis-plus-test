@@ -1,7 +1,7 @@
 package com.xiaodu.mybatisplustest;
 
-/*import com.xiaodu.mybatisplustest.entity.ElaJob;
-import com.xiaodu.mybatisplustest.mapper.ElaJobDao;*/
+import com.xiaodu.mybatisplustest.entity.ElaJob;
+import com.xiaodu.mybatisplustest.mapper.ElaJobMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mybatis.spring.annotation.MapperScan;
@@ -14,12 +14,12 @@ import org.springframework.test.context.junit4.SpringRunner;
 @MapperScan("com.xiaodu.mybatisplustest.mapper")
 public class MybatisPlusTestApplicationTests {
 
-   /* @Autowired
-    ElaJobDao elaJobDao;*/
+    @Autowired
+    private ElaJobMapper elaJobDao;
     @Test
     public void contextLoads() {
-       /* ElaJob elaJob = elaJobDao.selectById(1);
-        System.out.println(elaJob.toString());*/
+        ElaJob elaJob = elaJobDao.selectById(1);
+        System.out.println(elaJob.toString());
     }
 
 }

@@ -6,7 +6,7 @@ import com.baomidou.mybatisplus.exceptions.MybatisPlusException;
 import com.baomidou.mybatisplus.generator.AutoGenerator;
 import com.baomidou.mybatisplus.generator.InjectionConfig;
 import com.baomidou.mybatisplus.generator.config.*;
-import com.baomidou.mybatisplus.core.toolkit.StringPool;
+//import com.baomidou.mybatisplus.core.toolkit.StringPool;
 import com.baomidou.mybatisplus.generator.config.po.TableInfo;
 import com.baomidou.mybatisplus.generator.config.rules.DbType;
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
@@ -89,7 +89,7 @@ public class MysqlGenerator {
 
 
         // 自定义配置
-        InjectionConfig cfg = new InjectionConfig() {
+        /*InjectionConfig cfg = new InjectionConfig() {
             @Override
             public void initMap() {
                 // to do nothing
@@ -106,7 +106,7 @@ public class MysqlGenerator {
         });
         cfg.setFileOutConfigList(focList);
         mpg.setCfg(cfg);
-        mpg.setTemplate(new TemplateConfig().setXml(null));
+        mpg.setTemplate(new TemplateConfig().setXml(null));*/
 
 
         // 策略配置
