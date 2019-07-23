@@ -28,7 +28,7 @@ spring:
       max-pool-prepared-statement-per-connection-size: 20
       # 配置监控统计拦截的filters
       filters: stat
-
+      #可访问localhost:端口/druid/进行监控sql执行
       stat-view-servlet:
         url-pattern: /druid/*
         reset-enable: false
